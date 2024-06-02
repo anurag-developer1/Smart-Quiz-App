@@ -187,9 +187,12 @@ function SingleCorrect() {
 
 export default SingleCorrect;*/
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DoneIcon from '@mui/icons-material/Done';
+import { useDispatch, useSelector } from "react-redux";
+import { setquestions } from "../../features/createQuizSlice";
 
 function SingleCorrect() {
 
@@ -199,15 +202,37 @@ function SingleCorrect() {
   const [optiontext, setOptiontext] = useState("");
   const [options, setOptions] = useState([]);
   const [chk1checked, setChk1Checked] = useState(false);
-  const [questions, setQuestions] = useState([]); // Initialize questions as an empty array
+  const {questions} = useSelector((store)=>store.createQuiz); // Initialize questions as an empty array
   const [addQuestionErrorModal,setAddQuestionsErrorModal]=useState(false)
+  const[showSuccessModal,setShowSuccessModal]=useState(false)
+  const dispatch=useDispatch();
+  useEffect(() => {
+    if (showSuccessModal) {
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 1000); // hide modal after 3 seconds
+    }
+  }, [showSuccessModal]);
+
+  const SuccessModal=()=>{return(<div className="fixed inset-0 flex items-center justify-center z-50">
+  <div className="fixed inset-0 bg-black opacity-50"></div>
+  <div className="bg-white rounded-lg p-8 max-w-md mx-auto relative">
+    <div className="flex justify-center mb-4">
+      <span ><DoneIcon sx={{ color: "green" }}/></span>
+    </div>
+    <h2 className="text-2xl font-bold mb-4 text-center">Success!</h2>
+    <p className="text-gray-600">Question added successfully!</p>
+  </div>
+</div>)}
+  
+  
   const ErrorModal = () => {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
         <div className="bg-white rounded-lg shadow-lg p-6 z-10">
           <h2 className="text-xl font-bold mb-4">Error</h2>
-          <p className="text-gray-700">Please add at least two options before saving the question.</p>
+          <p className="text-gray-700">Please add at least two options before saving the question and ensure the question field is not empty.</p>
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-6"
             onClick={() => setAddQuestionsErrorModal(false)}
@@ -265,21 +290,25 @@ function SingleCorrect() {
     setBtn2Clicked(true);
   };
 
-  const handleSaveAndAddNextQuestion = () => {
+  const handleAddThisQuestion = () => {
     if( options.length<2){setAddQuestionsErrorModal(true)}
-    else{setQuestions((prevQuestions) => [
-      ...prevQuestions,
-      { question: questiontext, answer: options },
-    ]);
+    else if(questiontext && options.length>=2){dispatch(setquestions( { question: questiontext, answer: options }))
+    
     setBtn1Clicked(false);
     setQuestiontext("");
     setOptiontext("");
     setChk1Checked(false);
-    setOptions([])}
+    setOptions([]);
+    setShowSuccessModal(true)
+    }
+    
+    else{setAddQuestionsErrorModal(true)}
+    
+
     
   };
 
-  return (
+  return ( 
     <div className="container mx-auto p-4 pt-6 max-w-3xl">
       {!btn2Clicked && (
         <div className="flex justify-center">
@@ -393,15 +422,16 @@ function SingleCorrect() {
               <button
                 id="btn-3"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 "
-                onClick={handleSaveAndAddNextQuestion}
+                onClick={handleAddThisQuestion}
               >
-                Save and Add Next Question
+                Add This Question
               </button></div>
             </div>
           ) : null}
         </div>
       )}
       {addQuestionErrorModal&&<ErrorModal/>}
+      {showSuccessModal&& <SuccessModal/>}
     </div>
   );
 }

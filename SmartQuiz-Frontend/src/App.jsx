@@ -6,6 +6,8 @@ import Createquizform from "./pages/create-quiz-page/Createquizform.jsx"
 import Myquizzes from "./pages/myquizzes-page/Myquizzes.jsx"
 import Playquiz from "./pages/playquiz-page/Playquiz.jsx";
 import ResultPage from "./pages/result-page/Resultpage.jsx"
+import Userinfo from "./pages/userinfo/Userinfo.jsx";
+
 
 
 
@@ -22,7 +24,7 @@ function App() {
       <Route path="/myquizzes" element={ <Myquizzes />} />
       <Route path="/playquiz" element={ < Playquiz/>} />
       <Route path="/results" element={ < ResultPage/>} />
-      
+      <Route path="/userinfo" element={ < Userinfo/>}/>
     </Routes></>
     
   )

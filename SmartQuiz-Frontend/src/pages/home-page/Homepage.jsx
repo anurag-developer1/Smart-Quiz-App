@@ -41,6 +41,18 @@ function HomePage() {
           alt="image2"
         />
       </NavLink>
+      <NavLink
+        to="/myquizzes"
+        className="m-4 sm:m-8 transition-transform duration-300 hover:scale-105"
+      >
+        <Actioncard
+          actiontype={"My Quizzes"}
+          image={
+            "https://img.freepik.com/premium-photo/trees-growing-forest_1048944-30368869.jpg?w=1480"
+          }
+          alt="image3"
+        />
+      </NavLink>
     </div>
   );
 }

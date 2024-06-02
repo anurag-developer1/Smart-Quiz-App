@@ -21,20 +21,28 @@ function Navbar() {
 export default Navbar*/
 
 
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import smartquiz from './smartquiz.png';
+import MenuIcon from '@mui/icons-material/Menu';
+import almabetterlogo from './Alma_Better_Logo.png';
 
 function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <nav className="bg-black/90 px-4 py-4 flex items-center justify-between">
+    <nav className="bg-black/20 px-4 py-3 md:py-4 flex items-center justify-between ">
       <div className="flex items-center">
         <NavLink to="/home" className="flex items-center">
-          <img src={smartquiz} alt="logo" className="h-10 mr-2" />
+          <img src={almabetterlogo} alt="logo" className="h-8 mr-2" />
           <span className="font-bold text-2xl text-[#6CB8C6]">Smart</span>
           <span className="font-bold text-2xl text-white">Quiz</span>
         </NavLink>
       </div>
-      <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
+      <div className="hidden md:flex space-x-6">
         <NavLink
           to="/createquiz"
           className="text-white px-3 py-2 rounded-md hover:bg-slate-50 hover:text-slate-900 transition-colors duration-300"
@@ -47,10 +55,46 @@ function Navbar() {
         >
           My Quizzes
         </NavLink>
+        <NavLink
+          to="/playquiz"
+          className="text-white px-3 py-2 rounded-md hover:bg-slate-50 hover:text-slate-900 transition-colors duration-300"
+        >
+          Play Quiz
+        </NavLink>
       </div>
-      <div className="md:hidden">
-        {/* Mobile menu toggle button */}
+      <div className="md:hidden flex items-center">
+        <button
+          onClick={toggleMobileMenu}
+          className="text-white focus:outline-none"
+        >
+        <MenuIcon/>
+        </button>
       </div>
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-black/80 text-white py-4 px-6 z-50">
+          <NavLink
+            to="/createquiz"
+            className="block text-white py-2 hover:bg-slate-50 hover:text-slate-900 transition-colors duration-300 text-center"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Create Quiz
+          </NavLink>
+          <NavLink
+            to="/myquizzes"
+            className="block text-white py-2 hover:bg-slate-50 hover:text-slate-900 transition-colors duration-300 text-center"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            My Quizzes
+          </NavLink>
+          <NavLink
+            to="/playquiz"
+            className="block text-white py-2 hover:bg-slate-50 hover:text-slate-900 transition-colors duration-300 text-center"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Play Quiz
+          </NavLink>
+        </div>
+      )}
     </nav>
   );
 }
