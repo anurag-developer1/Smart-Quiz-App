@@ -44,8 +44,9 @@ import MultipleCorrect from "../../components/add-multiplecorrect/Multiplecorrec
 import SingleCorrect from "../../components/add-singlecorrect/Singlecorrect";
 import { useState,useEffect } from "react";
 import Modal from "../../components/modal/Modal";
+import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch, useSelector } from "react-redux";
-import{setquiztype, setquizdescription, setquiztitle,setdatecreated} from '../../features/createQuizSlice'
+import{setquiztype, setquizdescription, setquiztitle,setdatecreated} from '../../reduxstateslices/createQuizSlice'
 
 
 function Createquizform() {
@@ -53,11 +54,57 @@ function Createquizform() {
   const [mcqType, setMcqType] = useState("");
   const [quizTitle,setQuizTitle]=useState("");
   const [quizDescription,setQuizDescription]=useState("")
+  const [showSuccessModal,setShowSuccessModal]=useState(false)
+  const [showSaveQuizErrorModal,setShowSaveQuizErrorModal]=useState(false)
   const dispatch=useDispatch()
   const {quiztype,questions,isactive}=useSelector((store)=>store.createQuiz)
   useEffect(() => {
     dispatch(setquiztype(mcqType));
   }, [mcqType, dispatch]);
+
+  useEffect(() => {
+    if (showSuccessModal) {
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 1000); // hide modal after 3 seconds
+    }
+  }, [showSuccessModal]);
+  useEffect(() => {
+    if (showSaveQuizErrorModal) {
+      setTimeout(() => {
+        setShowSaveQuizErrorModal(false);
+      }, 3000); // hide modal after 3 seconds
+    }
+  }, [showSaveQuizErrorModal]);
+
+  const SuccessModal=()=>{return(<div className="fixed inset-0 flex items-center justify-center z-50">
+  <div className="fixed inset-0 bg-black opacity-50"></div>
+  <div className="bg-white rounded-lg p-8 max-w-md mx-auto relative">
+    <div className="flex justify-center mb-4">
+      <span ><DoneIcon sx={{ color: "green" }}/></span>
+    </div>
+    <h2 className="text-2xl font-bold mb-4 text-center">Success!</h2>
+    <p className="text-gray-600">Quiz Saved successfully!</p>
+  </div>
+</div>)}
+
+const SaveQuizErrorModal = () => {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
+      <div className="bg-white rounded-lg shadow-lg p-6 z-10">
+        <h2 className="text-xl font-bold mb-4 text-red-700">Error</h2>
+        <p className="text-gray-700">Please Ensure That your Quiz Has Atleast One Question and You Are Not Saving The Last Quiz Twice</p>
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-6"
+          onClick={() => setShowSaveQuizErrorModal(false)}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 
   const handleShowModal = (e) => {
     setShowModal(false);
@@ -68,15 +115,17 @@ function Createquizform() {
   };
   
   const handleSaveQuiz = () => {
-    const newQuiz = { quiztype, quiztitle: quizTitle, quizdescription: quizDescription, questions, isactive,datecreated:new Date().toLocaleTimeString() };
+   if(questions.length===0){setShowSaveQuizErrorModal(true); return}
+   else{ const newQuiz = { quiztype, quiztitle: quizTitle, quizdescription: quizDescription, questions, isactive,datecreated:new Date().toLocaleTimeString() };
     dispatch(setquiztitle(newQuiz.quiztitle))
     dispatch(setquizdescription(newQuiz.quizdescription))
     dispatch(setdatecreated(newQuiz.datecreated))
     const existingData = localStorage.getItem("Quiz");
     let Quiz = existingData ? JSON.parse(existingData) : [];
     // Append new data to the existing array
-    Quiz.push(newQuiz);
-    localStorage.setItem("Quiz", JSON.stringify(Quiz));
+    if(newQuiz.quiztitle===Quiz[Quiz.length-1].quiztitle&&newQuiz.quizdescription===Quiz[Quiz.length-1].quizdescription &&newQuiz.questions.length===Quiz[Quiz.length-1].questions.length){setShowSaveQuizErrorModal(true);return}else{Quiz.push(newQuiz)
+      localStorage.setItem("Quiz", JSON.stringify(Quiz));
+      setShowSuccessModal(true)}}
   };
 
   return (
@@ -103,6 +152,8 @@ function Createquizform() {
         </button>
         
       </div>
+      {showSuccessModal&&<SuccessModal  />}
+      {showSaveQuizErrorModal&&<SaveQuizErrorModal />}
     </div>
     )
     ;

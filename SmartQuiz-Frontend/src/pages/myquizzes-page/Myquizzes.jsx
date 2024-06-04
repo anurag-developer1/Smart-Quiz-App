@@ -64,9 +64,7 @@ const MyQuizzes = () => {
                   </td>
                   <td className="py-4 px-6 text-center">
                     <div className="flex justify-center space-x-2">
-                      <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded transition duration-300">
-                        Play
-                      </button>
+                      
                       <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-300">
                         Edit
                       </button>

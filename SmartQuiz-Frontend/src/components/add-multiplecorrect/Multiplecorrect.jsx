@@ -3,7 +3,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch, useSelector } from "react-redux";
-import { setquestions } from "../../features/createQuizSlice";
+import { setquestions } from "../../reduxstateslices/createQuizSlice";
 
 function MultipleCorrect() {
 
@@ -63,7 +63,7 @@ function MultipleCorrect() {
   };
 
   const handleAddThisoption = () => {
-    setOptions((options) => [
+   if(optiontext) {setOptions((options) => [
         ...options,
         { option: optiontext, correct: chk1checked },
       ])
@@ -75,7 +75,7 @@ function MultipleCorrect() {
       return finalOptions; // Return the new array
     });
     setChk1Checked(false);
-    setOptiontext("")
+    setOptiontext("")}
   };
 
   const handleDeleteOption = (id) => {

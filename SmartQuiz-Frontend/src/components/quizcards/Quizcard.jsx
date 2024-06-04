@@ -15,7 +15,7 @@ function Quizcard(props) {
           <br/>
           <div className="flex justify-between items-center">
             <span className="text-gray-500 text-sm">{`${props.item.questions.length} Questions`}</span>
-          <NavLink to="/userinfo"> <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          <NavLink to="/userinfo"> <button onClick={()=>props.handleStartQuiz(props.index)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
               Start Quiz
             </button></NavLink> 
           </div>
@@ -26,6 +26,7 @@ function Quizcard(props) {
 
   Quizcard.propTypes = {
     index: PropTypes.number.isRequired,
+    handleStartQuiz: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
     
   };
