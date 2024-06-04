@@ -123,7 +123,7 @@ const SaveQuizErrorModal = () => {
     const existingData = localStorage.getItem("Quiz");
     let Quiz = existingData ? JSON.parse(existingData) : [];
     // Append new data to the existing array
-    if(newQuiz.quiztitle===Quiz[Quiz.length-1].quiztitle&&newQuiz.quizdescription===Quiz[Quiz.length-1].quizdescription &&newQuiz.questions.length===Quiz[Quiz.length-1].questions.length){setShowSaveQuizErrorModal(true);return}else{Quiz.push(newQuiz)
+    if(Quiz.length && newQuiz.quiztitle===Quiz[Quiz.length-1].quiztitle&&newQuiz.quizdescription===Quiz[Quiz.length-1].quizdescription &&newQuiz.questions.length===Quiz[Quiz.length-1].questions.length){setShowSaveQuizErrorModal(true);return}else{Quiz.push(newQuiz)
       localStorage.setItem("Quiz", JSON.stringify(Quiz));
       setShowSuccessModal(true)}}
   };

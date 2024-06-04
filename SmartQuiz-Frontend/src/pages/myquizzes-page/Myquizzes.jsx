@@ -1,12 +1,108 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+
+const EditForm = (props) => {
+  const {activeEditButtonIndex,setEditQuizDescription,setEditQuizTitle,quizzes}=props
+  useEffect(() => {
+    const editThisQuiz = quizzes[activeEditButtonIndex] 
+    setEditQuizTitle(editThisQuiz.quiztitle);setEditQuizDescription(editThisQuiz.quizdescription)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeEditButtonIndex]);
+
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => props.setIsEditFormActive(true)}
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        Edit Quiz
+      </button>
+      {props.isEditFormActive && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <div className="mb-4">
+              <label htmlFor="quizTitle" className="block font-bold mb-2">
+                Quiz Title
+              </label>
+              <input
+                type="text"
+                id="quizTitle"
+                value={props.editQuizTitle}
+                onChange={(e) => props.setEditQuizTitle(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="quizDescription" className="block font-bold mb-2">
+                Quiz Description
+              </label>
+              <textarea
+                id="quizDescription"
+                value={props.editQuizDescription}
+                onChange={(e) =>props. setEditQuizDescription(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded"
+                rows="4"
+              />
+            </div>
+            <button
+              onClick={props.handleSave}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
 
 const MyQuizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
-
+  const [editQuizTitle,setEditQuizTitle]=useState("")
+  const [editQuizDescription,setEditQuizDescription]=useState("")
+  const [isEditFormActive,setIsEditFormActive]=useState("")
+  const [activeEditButtonIndex,setActiveEditButtonIndex]=useState(0)
   useEffect(() => {
     const storedQuizzes = JSON.parse(localStorage.getItem('Quiz')) || [];
     setQuizzes(storedQuizzes);
+  
+    const handleStorageChange = () => {
+      const updatedQuizzes = JSON.parse(localStorage.getItem('Quiz')) || [];
+      setQuizzes(updatedQuizzes);
+    };
+  
+    window.addEventListener('storage', handleStorageChange);
+  
+    //clean up event listener when this component will unmount
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
+  
+  const handleSave = () => {
+    const updatedQuizzes = [...quizzes];
+    const updatedQuiz = {
+      quiztype: updatedQuizzes[activeEditButtonIndex].quiztype,
+      quiztitle: editQuizTitle,
+      quizdescription: editQuizDescription,
+      questions: updatedQuizzes[activeEditButtonIndex].questions,
+      isactive: updatedQuizzes[activeEditButtonIndex].isactive,
+      datecreated: updatedQuizzes[activeEditButtonIndex].datecreated,
+    };
+  
+    updatedQuizzes[activeEditButtonIndex] = updatedQuiz;
+  
+    setQuizzes(updatedQuizzes);
+    localStorage.setItem("Quiz", JSON.stringify(updatedQuizzes));
+    setIsEditFormActive(false);
+  };
+   
+  const handleEdit=(index)=>{setIsEditFormActive(true);setActiveEditButtonIndex(index)}
 
   const toggleQuizStatus = (index) => {
     const updatedQuizzes = [...quizzes];
@@ -65,7 +161,7 @@ const MyQuizzes = () => {
                   <td className="py-4 px-6 text-center">
                     <div className="flex justify-center space-x-2">
                       
-                      <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-300">
+                      <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-300" onClick={() => handleEdit(index)}>
                         Edit
                       </button>
                       <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-300">
@@ -79,8 +175,21 @@ const MyQuizzes = () => {
           </table>
         </div>
       </div>
+      {isEditFormActive && <EditForm setIsEditFormActive={setIsEditFormActive} isEditFormActive={isEditFormActive} editQuizDescription={editQuizDescription} setEditQuizDescription={setEditQuizDescription} editQuizTitle={editQuizTitle} setEditQuizTitle={setEditQuizTitle} handleSave={handleSave} activeEditButtonIndex={activeEditButtonIndex} quizzes={quizzes}  />}
     </div>
   );
+};
+
+EditForm.propTypes = {
+  setIsEditFormActive: PropTypes.func.isRequired,
+  isEditFormActive: PropTypes.bool.isRequired,
+  editQuizDescription: PropTypes.string.isRequired,
+  setEditQuizDescription: PropTypes.func.isRequired,
+  editQuizTitle: PropTypes.string.isRequired,
+  setEditQuizTitle: PropTypes.func.isRequired,
+  handleSave: PropTypes.func.isRequired,
+  activeEditButtonIndex: PropTypes.number.isRequired,
+  quizzes:PropTypes.array.isRequired,
 };
 
 export default MyQuizzes;
