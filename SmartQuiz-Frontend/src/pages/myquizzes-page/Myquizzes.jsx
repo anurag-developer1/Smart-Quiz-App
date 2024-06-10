@@ -2,6 +2,56 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 
+
+const ConfirmDeleteModal = (props) => {
+  const {quizzes}=props
+
+  const handleDelete = () => {
+   const updatedQuizzes=quizzes.filter((quiz,index)=>index!==props.activeDeleteButtonIndex)
+   props.setQuizzes(updatedQuizzes);
+    localStorage.setItem("Quiz", JSON.stringify(updatedQuizzes));
+   props.  setIsDeleteButtonActive(false);
+  };
+
+  const handleCancel = () => {
+   props. setIsDeleteButtonActive(false);
+  };
+
+  return (
+    <>
+       (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div
+            className="absolute inset-0 bg-gray-800 opacity-75"
+            onClick={handleCancel}
+          ></div>
+
+          <div className="bg-white rounded-lg p-6 max-w-md mx-auto relative">
+            <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
+            <p className="mb-6">This item will be deleted forever and cannot be recovered. Are you sure you want to delete this item?</p>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded mr-2"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    </>
+  );
+};
+
+
+
 const EditForm = (props) => {
   const {activeEditButtonIndex,setEditQuizDescription,setEditQuizTitle,quizzes}=props
   useEffect(() => {
@@ -67,6 +117,8 @@ const MyQuizzes = () => {
   const [editQuizDescription,setEditQuizDescription]=useState("")
   const [isEditFormActive,setIsEditFormActive]=useState("")
   const [activeEditButtonIndex,setActiveEditButtonIndex]=useState(0)
+  const [activeDeleteButtonIndex,setActiveDeleteButtonIndex]=useState(0)
+  const [isDeleteButtonActive,setIsDeleteButtonActive]=useState(false)
   useEffect(() => {
     const storedQuizzes = JSON.parse(localStorage.getItem('Quiz')) || [];
     setQuizzes(storedQuizzes);
@@ -103,7 +155,7 @@ const MyQuizzes = () => {
   };
    
   const handleEdit=(index)=>{setIsEditFormActive(true);setActiveEditButtonIndex(index)}
-
+  const handleDelete=(index)=>{setIsDeleteButtonActive(true);setActiveDeleteButtonIndex(index)}
   const toggleQuizStatus = (index) => {
     const updatedQuizzes = [...quizzes];
     updatedQuizzes[index].isactive = !updatedQuizzes[index].isactive;
@@ -164,7 +216,7 @@ const MyQuizzes = () => {
                       <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-300" onClick={() => handleEdit(index)}>
                         Edit
                       </button>
-                      <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-300">
+                      <button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition duration-300" onClick={() => handleDelete(index)}>
                         Delete
                       </button>
                     </div>
@@ -176,6 +228,7 @@ const MyQuizzes = () => {
         </div>
       </div>
       {isEditFormActive && <EditForm setIsEditFormActive={setIsEditFormActive} isEditFormActive={isEditFormActive} editQuizDescription={editQuizDescription} setEditQuizDescription={setEditQuizDescription} editQuizTitle={editQuizTitle} setEditQuizTitle={setEditQuizTitle} handleSave={handleSave} activeEditButtonIndex={activeEditButtonIndex} quizzes={quizzes}  />}
+      {isDeleteButtonActive && <ConfirmDeleteModal activeDeleteButtonIndex={activeDeleteButtonIndex} setIsDeleteButtonActive={setIsDeleteButtonActive} quizzes={quizzes} setQuizzes={setQuizzes} />}
     </div>
   );
 };
@@ -191,6 +244,9 @@ EditForm.propTypes = {
   activeEditButtonIndex: PropTypes.number.isRequired,
   quizzes:PropTypes.array.isRequired,
 };
+
+ConfirmDeleteModal.propTypes = {activeDeleteButtonIndex: PropTypes.number.isRequired,setIsDeleteButtonActive: PropTypes.func.isRequired,quizzes:PropTypes.array.isRequired,setQuizzes:PropTypes.func.isRequired}
+
 
 export default MyQuizzes;
 

@@ -27,7 +27,7 @@ function Userinfo() {
             onChange={(e) => setPlayerName(e.target.value)}
             type="text"
             id="username"
-            placeholder="Enter your name"
+            placeholder="Enter your name (5 to 50 characters) "
             className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -36,7 +36,11 @@ function Userinfo() {
           className="block w-full text-center"
           onClick={setPlayerUsername}
         >
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">
+          <button className={`${
+                  playerName.length>=5&&playerName.length<=50?"bg-blue-500 hover:bg-blue-600 text-white"
+                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    
+                } font-bold py-2 px-4 mt-4 rounded transition-colors duration-200 w-full`}>
             Play Quiz
           </button>
         </NavLink>

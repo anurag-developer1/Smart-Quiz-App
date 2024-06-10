@@ -4,8 +4,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch, useSelector } from "react-redux";
 import { setquestions } from "../../reduxstateslices/createQuizSlice";
+import PropTypes from 'prop-types';
 
-function MultipleCorrect() {
+function MultipleCorrect(props) {
 
   const [btn1Clicked, setBtn1Clicked] = useState(false);
   const [btn2Clicked, setBtn2Clicked] = useState(false);
@@ -147,37 +148,40 @@ function MultipleCorrect() {
               Add Options
             </button>
           </div>
-          <div className="flex flex-wrap justify-center gap-3 mt-4">
-            {options.map((option, i = 0) => {
-              i++;
-              return (
-                <div
-                  className="bg-white flex items-center space-x-4 justify-between w-full sm:w-1/2 lg:w-1/3 p-4 mb-4 rounded shadow-md border border-gray-300"
-                  key={i}
-                >
-                  <div>
-                    {option.correct ? (
-                      <CheckIcon sx={{ color: "green" }} />
-                    ) : null}
-                  </div>
-                  <p className="text-lg flex-1 overflow-hidden text-gray-700 text-ellipsis">
-                    {i}. {option.option}
-                  </p>
-                  <div>
-                    <button
-                      id={option.id}
-                      onClick={() => {
-                        handleDeleteOption(option.id);
-                      }}
-                      className="text-red-500 focus:outline-none"
-                    >
-                      <DeleteForeverIcon sx={{ color: "red" }} />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+  {options.map((option, i = 0) => {
+    i++;
+    return (
+      <div
+        className="bg-white rounded-lg shadow-md border border-gray-300 overflow-hidden"
+        key={i}
+      >
+        <div className="flex items-center justify-between px-4 py-2 bg-gray-100">
+          <div>
+            {option.correct ? (
+              <CheckIcon sx={{ color: "green" }} />
+            ) : null}
           </div>
+          <button
+            id={option.id}
+            onClick={() => {
+              handleDeleteOption(option.id);
+            }}
+            className="text-red-500 focus:outline-none"
+          >
+            <DeleteForeverIcon sx={{ color: "red" }} />
+          </button>
+        </div>
+        <div className="p-4 flex-grow">
+          <h3 className="text-lg font-semibold mb-2 text-center">Option {i}</h3>
+          <p className="text-base text-gray-700 break-words whitespace-pre-wrap text-center">
+            {option.option}
+          </p>
+        </div>
+      </div>
+    );
+  })}
+</div>
           <br />
           {btn1Clicked ? (
             <div className="mt-4">
@@ -197,7 +201,7 @@ function MultipleCorrect() {
                   checked={chk1checked}
                   onChange={handlecheckboxchk1}
                   type="checkbox"
-                  className="form-checkbox h-5 w-5  text-blue-600 focus:ring-blue-500 "
+                  className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500"
                 />
                 <label
                   htmlFor="correctAnswer"
@@ -215,10 +219,14 @@ function MultipleCorrect() {
               </button>
               <button
                 id="btn-3"
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 "
+                className={`${
+                  props.quizTitle.length>=10&&props.quizTitle.length>=10&&questiontext.length>=10&&questiontext.length<=200?"bg-blue-500 hover:bg-blue-600 text-white"
+                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    
+                } font-bold py-2 px-4 mt-4 rounded transition-colors duration-200`}
                 onClick={handleAddThisQuestion}
               >
-                Add This Question 
+                Add This Question
               </button></div>
             </div>
           ) : null}
@@ -230,4 +238,5 @@ function MultipleCorrect() {
   );
 }
 
+MultipleCorrect.propTypes = { quizTitle: PropTypes.string.isRequired };
 export default MultipleCorrect;

@@ -116,7 +116,7 @@ const SaveQuizErrorModal = () => {
   
   const handleSaveQuiz = () => {
    if(questions.length===0){setShowSaveQuizErrorModal(true); return}
-   else{ const newQuiz = { quiztype, quiztitle: quizTitle, quizdescription: quizDescription, questions, isactive,datecreated:new Date().toLocaleTimeString() };
+   else{ const newQuiz = { quiztype, quiztitle: quizTitle, quizdescription: quizDescription, questions, isactive,datecreated:new Date().toLocaleString() };
     dispatch(setquiztitle(newQuiz.quiztitle))
     dispatch(setquizdescription(newQuiz.quizdescription))
     dispatch(setdatecreated(newQuiz.datecreated))
@@ -136,17 +136,22 @@ const SaveQuizErrorModal = () => {
           Create New Quiz
         </h1>
         <input
-          className={`w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ${quizTitle.length>=10&&quizTitle.length<=30?"focus:ring-green-700":"focus:ring-red-900"} `}
-          type="text"
-          placeholder="Quiz title (must be 10 to 30 characters)"
-          onChange={(e) => { setQuizTitle(e.target.value)}}
-        />
+  className={`w-full px-4 py-2 mb-4 rounded-md focus:outline-none focus:ring-2 ${
+    quizTitle.length >= 10 && quizTitle.length <= 30
+      ? 'border-green-500 text-green-700 focus:ring-green-500'
+      : 'border-red-500 text-red-700 focus:ring-red-500'
+  }`}
+  type="text"
+  placeholder="Quiz title (must be 10 to 30 characters)"
+  value={quizTitle}
+  onChange={(e) => setQuizTitle(e.target.value)}
+/>
         <textarea
           className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Quiz description"
           onChange={(e) => { setQuizDescription(e.target.value)}}
         />
-        {mcqType === "single-correct" ? <SingleCorrect /> :mcqType === "multiple-correct" ? <MultipleCorrect />:null}
+        {mcqType === "single-correct" ? <SingleCorrect quizTitle={quizTitle} /> :mcqType === "multiple-correct" ? <MultipleCorrect quizTitle={quizTitle}/>:null}
         <button  onClick={handleSaveQuiz} className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
           Save Quiz
         </button>
