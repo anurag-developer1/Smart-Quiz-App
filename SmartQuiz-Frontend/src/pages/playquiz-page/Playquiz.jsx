@@ -14,7 +14,7 @@ function Playquiz() {
     setQuizzes(storedQuizzes);
     }, []);
      return (
-    <><h1 className="text-2xl font-bold text-gray-900 text-center my-5">Play Quiz</h1><br/><br/><div className="container mx-auto px-4 my-2">
+    <><h1 className="text-4xl font-bold text-white text-center my-5">Play Quiz</h1><br/><br/><div className="container mx-auto px-4 my-2">
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
      {quizzes.map((item, index) => ( item.isactive?<Quizcard key={index} index={index} handleStartQuiz={handleStartQuiz}  item={item} />:null ))}
       

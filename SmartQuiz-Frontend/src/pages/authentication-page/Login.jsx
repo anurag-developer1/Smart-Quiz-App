@@ -122,7 +122,7 @@ function Login() {
       )}
     <div
     className="flex items-center justify-center min-h-screen bg-cover bg-center "
-    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1542281286-9e0a16bb7366)' }}
+    
   >
     <div className="backdrop-blur-lg bg-black/40 rounded-lg p-8 shadow-lg relative z-10">
       <div className="flex flex-col items-center mb-6">

@@ -11,7 +11,7 @@ function ResultPage() {
   return (
 
     <div className="flex flex-col items-center justify-center min-h-screen p-3">
-      <div className="max-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
+      <div className="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg">
         <img
           src={congratulations}
           alt="Quiz Completion"

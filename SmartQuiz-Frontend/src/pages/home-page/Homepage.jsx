@@ -16,7 +16,7 @@ import Actioncard from "../../components/actioncards/Actioncard";
 
 function HomePage() {
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div className="flex flex-col sm:flex-row justify-center items-center min-h-screen ">
       <NavLink
         to="/createquiz"
         className="m-4 sm:m-8 transition-transform duration-300 hover:scale-105 w-1/3"

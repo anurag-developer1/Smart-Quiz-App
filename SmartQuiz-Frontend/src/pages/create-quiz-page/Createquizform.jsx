@@ -129,7 +129,7 @@ const SaveQuizErrorModal = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+    <div className="flex flex-col items-center min-h-screen ">
       <div className="px-4 py-8 mt-3 w-full max-w-3xl bg-black/30 rounded-lg shadow-md">
        {showModal&&<Modal  handleShowModal={handleShowModal} />}
         <h1 className="text-2xl font-bold text-center text-white mb-6">
