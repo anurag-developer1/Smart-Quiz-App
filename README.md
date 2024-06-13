@@ -30,14 +30,17 @@ Check out the demo of the app on YouTube: [SmarQuiz App Demo](https://www.youtub
    git clone https://github.com/anurag-developer1/Smart-Quiz-App.git
 
 2. Navigate to the project directory:
-   ```bash
+     ```bash
+   cd Smart-Quiz-App
+
+    ```bash
    cd SmartQuiz-Frontend
 
-3. Install dependencies:
+4. Install dependencies:
    ```bash
    npm install
 
-4. Run the development server:
+5. Run the development server:
    ```bash
    npm run dev
 
