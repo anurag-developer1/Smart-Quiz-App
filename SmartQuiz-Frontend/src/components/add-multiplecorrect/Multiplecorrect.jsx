@@ -134,12 +134,17 @@ function MultipleCorrect(props) {
               Question {questions.length + 1}
             </p>
             <textarea
-              id="questiontext"
-              value={questiontext}
-              onChange={(e) => setQuestiontext(e.target.value)}
-              className="w-full p-2 pl-10 text-sm text-gray-700 rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Type the question here"
-            />
+  id="questiontext"
+  value={questiontext}
+  onChange={(e) => setQuestiontext(e.target.value)}
+  className={`w-full px-4 py-2 mb-4 rounded-md focus:outline-none focus:ring-2 ${
+    questiontext.length >= 10 && questiontext.length <= 200
+      ? 'border-green-500 text-green-700 focus:ring-green-500'
+      : 'border-red-500 text-red-700 focus:ring-red-500'
+  }`}
+  placeholder="Type the question here (10-200 characters)"
+  rows={4}
+/>
           </div>
           <div className="flex justify-center mt-4">
             <button

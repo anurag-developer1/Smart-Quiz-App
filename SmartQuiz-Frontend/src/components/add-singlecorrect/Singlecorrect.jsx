@@ -156,7 +156,7 @@ function SingleCorrect(props) {
   value={questiontext}
   onChange={(e) => setQuestiontext(e.target.value)}
   className={`w-full px-4 py-2 mb-4 rounded-md focus:outline-none focus:ring-2 ${
-    questiontext.length >= 10 && questiontext.length <= 30
+    questiontext.length >= 10 && questiontext.length <= 200
       ? 'border-green-500 text-green-700 focus:ring-green-500'
       : 'border-red-500 text-red-700 focus:ring-red-500'
   }`}
