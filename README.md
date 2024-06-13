@@ -31,8 +31,7 @@ Check out the demo of the app on YouTube: [SmarQuiz App Demo](https://www.youtub
 
 2. Navigate to the project directory:
    ```bash
-   cd Smart-Quiz-App
-   cd SmartQuiz-Frontend
+   cd Smart-Quiz-App/SmartQuiz-Frontend
 
 4. Install dependencies:
    ```bash
