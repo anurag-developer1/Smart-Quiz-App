@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-
+//quiz card component which is diplayed on play quiz page 
 function Quizcard(props) {
     return (
       <div className="bg-white shadow-lg rounded-lg overflow-hidden">

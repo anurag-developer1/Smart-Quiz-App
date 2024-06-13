@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 
-
+// ConfirmDeleteModal component
 const ConfirmDeleteModal = (props) => {
   const {quizzes}=props
 
   const handleDelete = () => {
    const updatedQuizzes=quizzes.filter((quiz,index)=>index!==props.activeDeleteButtonIndex)
    props.setQuizzes(updatedQuizzes);
-    localStorage.setItem("Quiz", JSON.stringify(updatedQuizzes));
+    localStorage.setItem("Quiz", JSON.stringify(updatedQuizzes));//update localstorage "Quiz" which is an array of objects representing a single quiz
    props.  setIsDeleteButtonActive(false);
   };
 
@@ -51,7 +51,7 @@ const ConfirmDeleteModal = (props) => {
 };
 
 
-
+//edit form component that appears on clicking the edit button for each quiz
 const EditForm = (props) => {
   const {activeEditButtonIndex,setEditQuizDescription,setEditQuizTitle,quizzes}=props
   useEffect(() => {
@@ -63,12 +63,7 @@ const EditForm = (props) => {
 
   return (
     <div className="relative">
-      <button
-        onClick={() => props.setIsEditFormActive(true)}
-        className="px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Edit Quiz
-      </button>
+      {/*conditional rendering of the edit form based on the isEditFormActive state*/}
       {props.isEditFormActive && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
@@ -110,14 +105,14 @@ const EditForm = (props) => {
 };
 
 
-
+//MyQuizzes component
 const MyQuizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [editQuizTitle,setEditQuizTitle]=useState("")
   const [editQuizDescription,setEditQuizDescription]=useState("")
   const [isEditFormActive,setIsEditFormActive]=useState("")
-  const [activeEditButtonIndex,setActiveEditButtonIndex]=useState(0)
-  const [activeDeleteButtonIndex,setActiveDeleteButtonIndex]=useState(0)
+  const [activeEditButtonIndex,setActiveEditButtonIndex]=useState(0)//tracks the index of the quiz for which the edit button was pressed
+  const [activeDeleteButtonIndex,setActiveDeleteButtonIndex]=useState(0)//tracks the index of the quiz for which the delete button was pressed
   const [isDeleteButtonActive,setIsDeleteButtonActive]=useState(false)
   useEffect(() => {
     const storedQuizzes = JSON.parse(localStorage.getItem('Quiz')) || [];
@@ -127,7 +122,7 @@ const MyQuizzes = () => {
       const updatedQuizzes = JSON.parse(localStorage.getItem('Quiz')) || [];
       setQuizzes(updatedQuizzes);
     };
-  
+    //add event listener for storage events(whenever a quiz is edited and saved the localstorage.setItem triggers a global storage event which can be listened to and run change the state "quizzes" to the latest saved changes and re render the component)
     window.addEventListener('storage', handleStorageChange);
   
     //clean up event listener when this component will unmount
@@ -137,6 +132,7 @@ const MyQuizzes = () => {
   }, []);
   
   const handleSave = () => {
+    //Update a particular quiz for which the edit button was pressed and save button was then pressed in the editform component
     const updatedQuizzes = [...quizzes];
     const updatedQuiz = {
       quiztype: updatedQuizzes[activeEditButtonIndex].quiztype,
@@ -168,6 +164,7 @@ const MyQuizzes = () => {
       <h1 className="text-4xl font-bold mb-8 text-center text-white">My Quizzes</h1>
       <div className="bg-white shadow-lg rounded-lg overflow-hidden w-full">
         <div className="overflow-x-auto w-full">
+          {/* Table for displaying data and actions related to each quiz */}
           <table className="min-w-full table-auto w-full">
             <thead className="bg-gradient-to-r from-black to-blue-900 text-white">
               <tr>
@@ -227,6 +224,7 @@ const MyQuizzes = () => {
           </table>
         </div>
       </div>
+      {/* Conditional rendering of the edit form and delete confirmation modal */}
       {isEditFormActive && <EditForm setIsEditFormActive={setIsEditFormActive} isEditFormActive={isEditFormActive} editQuizDescription={editQuizDescription} setEditQuizDescription={setEditQuizDescription} editQuizTitle={editQuizTitle} setEditQuizTitle={setEditQuizTitle} handleSave={handleSave} activeEditButtonIndex={activeEditButtonIndex} quizzes={quizzes}  />}
       {isDeleteButtonActive && <ConfirmDeleteModal activeDeleteButtonIndex={activeDeleteButtonIndex} setIsDeleteButtonActive={setIsDeleteButtonActive} quizzes={quizzes} setQuizzes={setQuizzes} />}
     </div>

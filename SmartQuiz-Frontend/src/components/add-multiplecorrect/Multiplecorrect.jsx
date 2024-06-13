@@ -7,25 +7,26 @@ import { setquestions } from "../../reduxstateslices/createQuizSlice";
 import PropTypes from 'prop-types';
 
 function MultipleCorrect(props) {
-
+  // State variables
   const [btn1Clicked, setBtn1Clicked] = useState(false);
   const [btn2Clicked, setBtn2Clicked] = useState(false);
   const [questiontext, setQuestiontext] = useState("");
   const [optiontext, setOptiontext] = useState("");
   const [options, setOptions] = useState([]);
   const [chk1checked, setChk1Checked] = useState(false);
-  const {questions} = useSelector((store)=>store.createQuiz); // Initialize questions as an empty array
   const [addQuestionErrorModal,setAddQuestionsErrorModal]=useState(false)
   const[showSuccessModal,setShowSuccessModal]=useState(false)
+  //redux hooks
+  const {questions} = useSelector((store)=>store.createQuiz); // Initialize questions as an empty array
   const dispatch=useDispatch();
   useEffect(() => {
     if (showSuccessModal) {
       setTimeout(() => {
         setShowSuccessModal(false);
-      }, 1000); // hide modal after 3 seconds
+      }, 1000); // hide success modal after 1 seconds
     }
   }, [showSuccessModal]);
-
+  //Success Modal
   const SuccessModal=()=>{return(<div className="fixed inset-0 flex items-center justify-center z-50">
   <div className="fixed inset-0 bg-black opacity-50"></div>
   <div className="bg-white rounded-lg p-8 max-w-md mx-auto relative">
@@ -37,7 +38,7 @@ function MultipleCorrect(props) {
   </div>
 </div>)}
 
-
+ //Error Modal
   const ErrorModal = () => {
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -55,6 +56,8 @@ function MultipleCorrect(props) {
       </div>
     );
   };
+
+  //Handlers
   const handlecheckboxchk1 = () => {
     setChk1Checked(!chk1checked);
   };
@@ -64,7 +67,8 @@ function MultipleCorrect(props) {
   };
 
   const handleAddThisoption = () => {
-   if(optiontext) {setOptions((options) => [
+   //check if the option field is not empty. if not empty then add the option.since its multiple correct type we are not concerned whether an earlier option is already marked correct.
+    if(optiontext) {setOptions((options) => [
         ...options,
         { option: optiontext, correct: chk1checked },
       ])
@@ -81,7 +85,7 @@ function MultipleCorrect(props) {
 
   const handleDeleteOption = (id) => {
     setOptions((options) => {
-      return options.filter((option) => option.id !== id);
+      return options.filter((option) => option.id !== id);//using filter method of arrays to remove the option by passing the id of the option in handledelete method
     });
   };
 
@@ -90,9 +94,11 @@ function MultipleCorrect(props) {
   };
 
   const handleAddThisQuestion = () => {
-    if( options.length<2){setAddQuestionsErrorModal(true)}
+    //add a question only if it has atleast two options and atleast one correct option
+    const numberOfCorrectOptions = options.filter((option) => option.correct).length;
+    if( options.length<2||numberOfCorrectOptions<1){setAddQuestionsErrorModal(true)}
     else{dispatch(setquestions( { question: questiontext, answer: options }))
-    
+    //reset the state variables
     setBtn1Clicked(false);
     setQuestiontext("");
     setOptiontext("");
@@ -232,6 +238,7 @@ function MultipleCorrect(props) {
           ) : null}
         </div>
       )}
+      {/*conditional rendering of modals */}
       {addQuestionErrorModal&&<ErrorModal/>}
       {showSuccessModal && <SuccessModal />}
     </div>

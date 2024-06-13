@@ -2,7 +2,7 @@ import Quizcard from "../../components/quizcards/Quizcard";
 import{useState, useEffect} from "react"
 import {  useDispatch } from "react-redux";
 import { setplayquizindex ,setcurrentquiz} from "../../reduxstateslices/playQuizSlice";
-
+//this component displays all the quiz cards for the active quizzes that are fetched from the local storage
 function Playquiz() {
     const dispatch=useDispatch();
     const handleStartQuiz=(index)=>{dispatch(setplayquizindex(index));dispatch(setcurrentquiz(quizzes[index]))}

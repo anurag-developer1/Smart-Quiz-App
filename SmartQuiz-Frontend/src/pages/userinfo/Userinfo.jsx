@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setusername } from "../../reduxstateslices/playQuizSlice";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+//this component saves the name of the player before starting the quiz. the players name must be 5 to 50 characters
 function Userinfo() {
   const { currentquiz } = useSelector((store) => store.playQuiz);
   const currentquiztitle = currentquiz.quiztitle;

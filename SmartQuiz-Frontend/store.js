@@ -1,3 +1,5 @@
+//redux store
+
 import { configureStore } from '@reduxjs/toolkit';
 import createQuizSlice from './src/reduxstateslices/createQuizSlice';
 import playQuizSlice from './src/reduxstateslices/playQuizSlice';

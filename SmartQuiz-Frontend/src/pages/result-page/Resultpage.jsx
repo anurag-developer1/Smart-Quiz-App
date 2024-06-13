@@ -3,10 +3,11 @@ import congratulations from "./congratulations.jpg"
 import { NavLink } from "react-router-dom";
 import { resetPlayQuizState } from "../../reduxstateslices/playQuizSlice";
 
-
+//results page component
 function ResultPage() {
     const {username,userResult}=useSelector((store)=>store.playQuiz)
     const dispatch=useDispatch();
+    //this ok handler is to reset the playquiz state
     const handleOk=()=>{dispatch(resetPlayQuizState())}
   return (
 

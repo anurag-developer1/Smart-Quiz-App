@@ -1,28 +1,5 @@
-/*import PropTypes from 'prop-types';
-
-function Modal(props) {
-    
-  return (
-    <div className='w-[100vw] h-[100vh] flex bg-slate-400 justify-center items-center'>
-      <div className='w-1/2 h-1/3 flex flex-row flex-wrap justify-around items-center bg-orange-200'>
-        <p className='font-bold text-black text-center px-2 py-2 w-full'>Select a quiz type</p>
-        <button id='btn-mcq-single'  className=" bg-black text-white px-2 py-1 rounded hover:bg-slate-50 hover:text-slate-900" onClick={(e)=>{props.handleShowModal(e)}}>MCQ-single correct</button>
-        <button id='btn-mcq-multiple' className=" bg-black text-white px-2 py-1 rounded hover:bg-slate-50 hover:text-slate-900" onClick={(e)=>{props.handleShowModal(e)}}>MCQ-multiple correct</button>
-        <button id='btn-shortanswer' className="bg-black text-white px-2 py-1 rounded hover:bg-slate-50 hover:text-slate-900" onClick={(e)=>{props.handleShowModal(e)}}>Short answer type</button>
-      </div>
-      
-    </div>
-  )
-}
-
-Modal.propTypes = {
-  handleShowModal: PropTypes.func.isRequired
-};
-
-export default Modal;*/
-
 import PropTypes from 'prop-types';
-
+//Modal that shows the options for selecting an MCQ type
 function Modal(props) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm">

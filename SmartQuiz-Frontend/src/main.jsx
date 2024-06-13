@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from '../store.js'
 
-
+//wrapping the app in redux provider for global state management and react-router provider for routing
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode> <Provider store={store}>
   <BrowserRouter><App /></BrowserRouter>

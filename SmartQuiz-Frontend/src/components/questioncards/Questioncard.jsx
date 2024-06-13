@@ -6,13 +6,16 @@ import { NavLink } from 'react-router-dom';
 import { setuserResult } from "../../reduxstateslices/playQuizSlice";
 
 const Questioncard = (props) => {
-  const [optionsCheckbox, setOptionsCheckbox] = useState(props.question.answer.map((answer, index) => ({ id: index, answer, question: props.question.question, checked: false })));
+  //state variables
+  const [optionsCheckbox, setOptionsCheckbox] = useState(props.question.answer.map((answer, index) => ({ id: index, answer, question: props.question.question, checked: false })));//this state variable is used to store the checkbox values to track the user's responses
   const dispatch = useDispatch();
   const { userResponse } = useSelector((store) => store.playQuiz);
-  const [lastQuestionSaved, setLastQuestionSaved] = useState(false);
+  const [lastQuestionSaved, setLastQuestionSaved] = useState(false);//this state is to track if the users response to the last question in the quiz is recorded. if recorded the submit quiz button will be displayed
 
   const handleSubmitAndShowResults = () => {
+    //here we dispatch the users responses to the redux store  
     dispatch(setuserResponse({ question: props.question, response: optionsCheckbox, responseforquestionindex: props.currentQuestionIndex }));
+    //this is the logic to check the users responses with the correct answers 
     dispatch(setuserResult({ correct: userResponse.map(item => {
       const answer = item.question.answer.map((ansitem, ansitemindex) => ansitem.correct === item.response[ansitemindex].checked ? true : false);
       return answer;
@@ -20,8 +23,9 @@ const Questioncard = (props) => {
   }
 
   const handleSaveAndNext = () => {
+     //here we dispatch the users responses to the redux store 
     dispatch(setuserResponse({ question: props.question, response: optionsCheckbox, responseforquestionindex: props.currentQuestionIndex }));
-
+   //setting the current question index to the next question
     if (props.currentQuestionIndex < props.currentquiz.questions.length - 1) {
       props.setCurrentQuestionIndex((currentQuestionIndex) => (currentQuestionIndex + 1));
       setOptionsCheckbox((prevOptions) =>
@@ -34,7 +38,7 @@ const Questioncard = (props) => {
       setLastQuestionSaved(true); // Set the flag when the last question's response is saved
     }
   };
-
+  //handling the users reponse of checkboxes according to mcq type. if the mcq type is single correct user can set only one checkbox as checked and if the mcq type is multiple correct user can set multiple checkboxes as checked
   const handleCheckbox = (id) => {
     if (props.quiztype === "single-correct") {
       setOptionsCheckbox((prevOptions) =>
@@ -58,7 +62,7 @@ const Questioncard = (props) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 my-10 mx-auto w-full max-w-4xl">
+    <div className="bg-white rounded-lg shadow-lg p-6 my-10 mx-auto w-full max-w-6xl">
       <h1 className="font-bold text-center text-3xl mb-4">{props.currentquiz.quiztitle}</h1>
       <h2 className="text-xl font-semibold text-center mb-2">Question {props.currentQuestionIndex + 1}</h2>
       <h2 className="mb-4 overflow-auto">{props.question.question}</h2>

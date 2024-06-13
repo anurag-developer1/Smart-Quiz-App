@@ -1,75 +1,11 @@
-/*import { useNavigate } from 'react-router-dom';
-import {useState} from 'react'
-import PropTypes from 'prop-types';
-
-
-function Error({showError}){ return (!showError?null:<div><p>Please enter correct username and password</p></div>)}
-
-function Login() {
-    
-    const navigate = useNavigate();
-    const [username,setUsername]=useState("")
-    const [password,setPassword]=useState("")
-   
-    const [isTyped, setIsTyped] = useState(false)
-    const [isValid, setIsValid] = useState(false)
-    const [showError,setShowError]=useState(false)
-     
-    
-    
-    const handleClick = () => {
-      if (username === "123" && password === "123"){setIsValid(true);navigate("/home");}
-      if (username === "" || password === "") {
-        setIsTyped(false);setShowError(true)
-      }else{setIsTyped(true)} 
-      if(isTyped===false||isValid===false){setShowError(true)}
-     
-      };
-      
-
-   
-    
-    
-  return (
-    <div className='flex w-[100vw] h-[100vh] justify-center items-center'><div className='w-[30vw] h-[30vh] mx-auto bg-slate-600 flex flex-col  justify-center items-center'>
-    <span className="font-bold text-2xl text-[#6CB8C6]">Smart</span><span className="font-bold text-2xl text-white">Quiz</span>
-    <input
-      onChange={(e) => {
-        setUsername(e.target.value);
-      }}
-      type="text"
-      placeholder="username"
-    />
-    <br />
-    
-    <input
-      onChange={(e) => {
-        setPassword(e.target.value);
-      }}
-      type="password"
-      placeholder="Password"
-    />
-    <br />
-    <div><p>Username:123</p><p>Password:123</p></div>
-    <Error showError={showError}/><br />
-    <button className="bg-black text-white px-2 py-1 rounded hover:bg-slate-50 hover:text-slate-900" onClick={handleClick}>Login</button>
-  </div></div>
-    
-    
-  );
-}
-Error.propTypes = {
-  showError: PropTypes.bool.isRequired,
- 
-  
-};
-
-export default Login*/
+//importing required modules
 
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
+
+//error displaying container(shows error upon entering wron username and password)
 
 function Error({ showError }) {
   return !showError ? null : (
@@ -77,19 +13,26 @@ function Error({ showError }) {
   );
 }
 
+// main component("Login" react functional component)
+
+
 function Login() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
+  //necessary states 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isTyped, setIsTyped] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [showNote,setShowNote]=useState(true)
-
+  const [showNote,setShowNote]=useState(true)      //state for managing the Note container
+ 
+ 
+  //handlers
   const handleClick = () => {
     if (username === '123' && password === '123') {
       setIsValid(true);
       navigate('/home');
+      //here the credentials are hard coded as there is no server authentication implemented
     }
     if (username === '' || password === '') {
       setIsTyped(false);
@@ -166,4 +109,4 @@ Error.propTypes = {
   showError: PropTypes.bool.isRequired,
 };
 
-export default Login;
+export default Login;  //exporting module

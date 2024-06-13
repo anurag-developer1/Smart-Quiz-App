@@ -1,4 +1,4 @@
-// createQuizSlice.js
+// createQuizSlice.js. this stores the state of the current quiz being created by create quiz form
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialQuizState = {
@@ -31,8 +31,9 @@ const createQuizSlice = createSlice({
     },
     setdatecreated(state, action){
       state.datecreated = action.payload;
-    }
+    },
+    resetCreateQuizState(){return initialQuizState;} //this resets the state of the create quiz form
   },
 });
-export const { setquiztitle, setquizdescription, setquiztype, setquestions, setisactive ,setdatecreated} = createQuizSlice.actions;
+export const { setquiztitle, setquizdescription, setquiztype, setquestions, setisactive ,setdatecreated,resetCreateQuizState} = createQuizSlice.actions;
 export default createQuizSlice;

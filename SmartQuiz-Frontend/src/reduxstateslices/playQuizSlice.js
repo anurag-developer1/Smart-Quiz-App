@@ -1,3 +1,4 @@
+//this stores the state of the current quiz being played
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialplayQuizState = {
@@ -28,7 +29,7 @@ const playQuizSlice = createSlice({
       setuserResult(state,action){
         state.userResult = action.payload
       },
-      resetPlayQuizState(){return initialplayQuizState;}
+      resetPlayQuizState(){return initialplayQuizState;}//reset the playquiz state
     },
 });
 export const { setplayquizindex, setusername,setcurrentquiz,setuserResponse,setuserResult,resetPlayQuizState} = playQuizSlice.actions;
